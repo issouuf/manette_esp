@@ -69,8 +69,8 @@
 
 unsigned long lastTimeStamp = 0;
 #define EVENTS 0
-#define BUTTONS 0
-#define JOYSTICKS 1
+#define BUTTONS 1
+#define JOYSTICKS 0
 #define SENSORS 0
 
 void notify();
@@ -94,8 +94,9 @@ void setup() {
 }
 
 void loop() {
-  delay(100);
+  PS4.setLed(0,255,0);
 }
+
 
 void removePairedDevices() {
   uint8_t pairedDeviceBtAddr[20][6];
@@ -140,13 +141,20 @@ void notify() {
 
 #if BUTTONS
   boolean sq = PS4.Square(),
-          tr = PS4.Triangle();
+          tr = PS4.Triangle(),
+          cr = PS4.Cross(),
+          ci = PS4.Circle();
   if (sq)
     Serial.print(" SQUARE pressed");
   if (tr)
     Serial.print(" TRIANGLE pressed");
   if (sq | tr)
     Serial.println();
+  if (cr)
+    Serial.print(" CROSS pressed");
+  if (ci)
+    Serial.print(" CIRCLE pressed");
+
 #endif
 
   //Only needed to print the message properly on serial monitor. Else we dont need it.
